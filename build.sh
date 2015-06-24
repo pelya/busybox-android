@@ -43,19 +43,19 @@ case  "$ANDROID_ABI" in
         CONFIG_CROSS_COMPILER_PREFIX="arm-linux-androideabi-"
         CONFIG_SYSROOT="$ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-arm"
         CONFIG_EXTRA_CFLAGS="-fsigned-char -march=armv5te -mtune=xscale -msoft-float -fdata-sections -ffunction-sections -fexceptions -mthumb -fPIC -Wno-psabi -DANDROID -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -fomit-frame-pointer --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-arm -isystem $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-arm/usr/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include/backward -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/armeabi/include $CFLAGS"
-        CONFIG_EXTRA_LDFLAGS="-rdynamic --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-arm -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/armeabi -lgnustl_static -lsupc++ $LDFLAGS"
+        CONFIG_EXTRA_LDFLAGS="-fuse-ld=bfd -pie --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-arm -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/armeabi -lgnustl_static -lsupc++ $LDFLAGS"
         CONFIG_EXTRA_LDLIBS=""
         ;;
     "mips") CONFIG_CROSS_COMPILER_PREFIX="mipsel-linux-android-"
         CONFIG_SYSROOT="$ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-mips"
         CONFIG_EXTRA_CFLAGS="-fPIC -Wno-psabi -DANDROID -fomit-frame-pointer -fno-strict-aliasing -finline-functions -ffunction-sections -funwind-tables -fmessage-length=0 -fno-inline-functions-called-once -fgcse-after-reload -frerun-cse-after-loop -frename-registers --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-mips -isystem $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-mips/usr/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include/backward -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/mips/include $CFLAGS"
-        CONFIG_EXTRA_LDFLAGS="-rdynamic --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-mips -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/mips -lgnustl_static -lsupc++ $LDFLAGS"
+        CONFIG_EXTRA_LDFLAGS="-fuse-ld=bfd -pie --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-mips -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/mips -lgnustl_static -lsupc++ $LDFLAGS"
         CONFIG_EXTRA_LDLIBS=""
         ;;
     "x86") CONFIG_CROSS_COMPILER_PREFIX="i686-linux-android-"
         CONFIG_SYSROOT="$ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-x86"
         CONFIG_EXTRA_CFLAGS="-march=i686 -mtune=atom -DANDROID -fPIC -mandroid -mstackrealign -msse3 -mfpmath=sse -m32 -fno-short-enums -ffunction-sections -funwind-tables -fomit-frame-pointer -fstrict-aliasing -funswitch-loops  -Wa,--noexecstack --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-x86 -isystem $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-x86/usr/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/include/backward -isystem $ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/x86/include $CFLAGS"
-        CONFIG_EXTRA_LDFLAGS="-rdynamic --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-x86 -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/x86 -lgnustl_static -lsupc++ $LDFLAGS"
+        CONFIG_EXTRA_LDFLAGS="-fuse-ld=bfd -pie --sysroot $ANDROID_NDK/platforms/$ANDROID_NATIVE_API_LEVEL/arch-x86 -Wl,--gc-sections -L$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/$ANDROID_TOOLCHAIN_COMPILER_VERSION/libs/x86 -lgnustl_static -lsupc++ $LDFLAGS"
         CONFIG_EXTRA_LDLIBS=""
         ;;
 esac
@@ -72,5 +72,3 @@ export PATH
 echo "make ..." >&2
 make -j$NCPU || exit 1
 make CONFIG_PREFIX=$PREFIX install || exit 1
-
-upx $PREFIX/bin/busybox || echo "Please install UPX: sudo apt-get install upx"
